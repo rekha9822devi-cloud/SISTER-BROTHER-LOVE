@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Didi — Bound by Heart, Not Just Blood</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond (Serif) & Plus Jakarta Sans (Sans-serif) & Caveat (Handwriting) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti for celebratory moments -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        handwriting: ['"Caveat"', 'cursive'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FFFDF9',
+                            100: '#FDF8F0',
+                            200: '#F8EFE0',
+                        },
+                        roseGold: {
+                            100: '#FCECEB',
+                            200: '#F7D6D4',
+                            400: '#E29590',
+                            500: '#C9736D',
+                            600: '#A85751',
+                        },
+                        amberWarm: {
+                            500: '#D99B52',
+                            600: '#B87D38',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom subtle animations and floating particles */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) scale(0.6); opacity: 0; }
+            20% { opacity: 0.45; }
+            80% { opacity: 0.45; }
+            100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+        }
+        .animate-float-slow {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatHeart linear infinite;
+        }
+        .polaroid-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .polaroid-card:hover {
+            transform: translateY(-6px) rotate(0deg) !important;
+            box-shadow: 0 20px 25px -5px rgba(201, 115, 109, 0.15), 0 8px 10px -6px rgba(201, 115, 109, 0.1);
+        }
+        .glass-panel {
+            background: rgba(255, 253, 249, 0.82);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(247, 214, 212, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-stone-800 font-sans antialiased selection:bg-roseGold-200 selection:text-stone-900 overflow-x-hidden relative">
+
+    <!-- Floating Ambient Hearts/Sparkles Container -->
+    <div id="particles-container" aria-hidden="true"></div>
+
+    <!-- Custom Toast Notification Box (Replaces alert()) -->
+    <div id="toast-notification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none max-w-sm w-full px-4 sm:px-0">
+        <div class="bg-stone-900 text-cream-50 px-5 py-3.5 rounded-2xl shadow-xl border border-roseGold-400/30 flex items-center gap-3">
+            <span id="toast-icon" class="text-roseGold-400 shrink-0"></span>
+            <p id="toast-message" class="text-sm font-medium leading-snug"></p>
+        </div>
+    </div>
+
+    <!-- Sticky Minimal Navigation -->
+    <nav class="sticky top-0 z-40 glass-panel border-b border-roseGold-200/50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="#hero" class="font-serif text-xl sm:text-2xl font-bold text-roseGold-600 flex items-center gap-2">
+                <i data-lucide="heart" class="w-5 h-5 fill-roseGold-500 text-roseGold-500"></i>
+                <span>For My Didi</span>
+            </a>
+            <div class="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm font-medium text-stone-600">
+                <a href="#story" class="hover:text-roseGold-600 transition-colors py-2">Kota Days</a>
+                <a href="#memories" class="hover:text-roseGold-600 transition-colors py-2">Memories</a>
+                <a href="#honest-note" class="hover:text-roseGold-600 transition-colors py-2">My Heart</a>
+                <a href="#quiz" class="bg-roseGold-500 hover:bg-roseGold-600 text-white px-3.5 py-2 rounded-full transition-all shadow-sm">For You ✨</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <header id="hero" class="relative pt-14 pb-20 sm:pt-24 sm:pb-28 px-4 sm:px-6 overflow-hidden">
+        <!-- Soft radial background glow -->
+        <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-roseGold-100/80 via-cream-100 to-cream-50"></div>
+        
+        <div class="max-w-3xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-roseGold-200 text-roseGold-600 text-xs sm:text-sm font-medium mb-6 shadow-sm">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amberWarm-500"></i>
+                <span>To the sister destiny chose for me</span>
+            </div>
+
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-stone-900 leading-[1.12] tracking-tight mb-6">
+                For My Didi — <span class="italic text-roseGold-600 block sm:inline">Bound by Heart,</span> Not Just Blood
+            </h1>
+
+            <p class="text-base sm:text-lg md:text-xl text-stone-600 leading-relaxed max-w-2xl mx-auto mb-10 font-normal">
+                I never had a real sister growing up, until the chaotic lanes of <span class="font-semibold text-stone-800">Kota</span> and endless NEET prep brought you into my life. Even though I’m a year younger and miles away right now, not a single day goes by without me missing you.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#story" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-roseGold-500 hover:bg-roseGold-600 text-white font-medium shadow-md shadow-roseGold-500/20 transition-all flex items-center justify-center gap-2">
+                    <span>Read Our Story</span>
+                    <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+                <a href="#quiz" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white hover:bg-cream-100 text-stone-800 border border-roseGold-200 font-medium shadow-sm transition-all flex items-center justify-center gap-2">
+                    <span>Answer My Questions</span>
+                    <i data-lucide="heart-handshake" class="w-4 h-4 text-roseGold-500"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. OUR STORY (THE KOTA CHAPTER) -->
+    <section id="story" class="py-16 sm:py-24 px-4 sm:px-6 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-xs uppercase tracking-widest text-roseGold-500 font-bold">Where It All Began</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 mt-2">The Kota Chapter</h2>
+                <p class="text-stone-600 mt-3 max-w-xl mx-auto text-sm sm:text-base">
+                    Amid pressure, mock tests, and homesickness, I found the greatest blessing of my life.
+                </p>
+            </div>
+
+            <!-- Timeline Cards -->
+            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-roseGold-200 before:via-roseGold-400 before:to-roseGold-200">
+                
+                <!-- Milestone 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-cream-50 bg-roseGold-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                    </div>
+                    <div class="w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] glass-panel p-6 sm:p-7 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-roseGold-600 bg-roseGold-100 px-3 py-1 rounded-full">Kota • NEET Prep</span>
+                            <span class="font-handwriting text-lg text-stone-400">Chapter 01</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-stone-900 mb-2">Finding the Sister I Never Had</h3>
+                        <p class="text-stone-600 text-sm sm:text-base leading-relaxed">
+                            Kota can feel lonely when you’re chasing a big dream away from home. Having no real sister of my own, I never knew what it felt like to have an older sister watch out for me—until I met you. Between syllabus stress and exhausting schedules, your warmth became my safe space.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Milestone 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-cream-50 bg-amberWarm-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                    </div>
+                    <div class="w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] glass-panel p-6 sm:p-7 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-amberWarm-600 bg-amber-100/80 px-3 py-1 rounded-full">1 Year Younger</span>
+                            <span class="font-handwriting text-lg text-stone-400">Chapter 02</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-stone-900 mb-2">Unconditional Care & Pure Bond</h3>
+                        <p class="text-stone-600 text-sm sm:text-base leading-relaxed">
+                            Being a year younger than you meant I always looked up to you—for advice, for scoldings when I slacked off, and for genuine care that felt more real than anything else. You loved and cared for me like your own little brother, and I gave you the highest place in my heart.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Milestone 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-cream-50 bg-roseGold-600 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                    </div>
+                    <div class="w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] glass-panel p-6 sm:p-7 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-roseGold-600 bg-roseGold-100 px-3 py-1 rounded-full">Miles Apart</span>
+                            <span class="font-handwriting text-lg text-stone-400">Chapter 03</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-stone-900 mb-2">Missing You Across the Distance</h3>
+                        <p class="text-stone-600 text-sm sm:text-base leading-relaxed">
+                            Right now, life has placed us far apart, and meeting isn’t possible at this moment. Even though we can’t just hang out like we used to, you are constantly in my thoughts. Distance has only made me realize how deeply I value having you in my life. Bahut Miss Krta Hu Aapko Yrr.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. MEMORY GALLERY (INTERACTIVE PHOTO UPLOADER) -->
+    <section id="memories" class="py-16 sm:py-24 px-4 sm:px-6 bg-cream-100/70 border-y border-roseGold-200/40 relative z-10">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-xs uppercase tracking-widest text-roseGold-500 font-bold">Frozen In Time</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 mt-2">Our Memories Together</h2>
+                <p class="text-stone-600 mt-3 max-w-xl mx-auto text-sm sm:text-base">
+                    Every moment we spent together is a treasure. Add our favorite photos below to keep them safe in our digital scrapbook.
+                </p>
+            </div>
+
+            <!-- Interactive Upload Bar -->
+            <div class="max-w-xl mx-auto mb-12 glass-panel p-5 sm:p-6 rounded-3xl shadow-sm border border-roseGold-200">
+                <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                    <input type="text" id="photo-caption-input" placeholder="Write a sweet caption (e.g., Chai break in Kota)..." class="flex-1 px-4 py-3 rounded-2xl bg-white border border-roseGold-200 text-sm focus:outline-none focus:ring-2 focus:ring-roseGold-400 text-stone-800 placeholder:text-stone-400">
+                    
+                    <label for="photo-upload-input" class="cursor-pointer bg-roseGold-500 hover:bg-roseGold-600 text-white font-medium text-sm px-5 py-3 rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 shrink-0">
+                        <i data-lucide="camera" class="w-4 h-4"></i>
+                        <span>Add Photo</span>
+                    </label>
+                    <input type="file" id="photo-upload-input" accept="image/*" class="hidden">
+                </div>
+                <p class="text-xs text-stone-500 mt-2.5 text-center sm:text-left flex items-center justify-center sm:justify-start gap-1.5">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-roseGold-500"></i>
+                    <span>Tip: Enter a caption first, then click "Add Photo" or click any placeholder frame below!</span>
+                </p>
+            </div>
+
+            <!-- Polaroid Grid -->
+            <div id="polaroid-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-8">
+                
+                <!-- Placeholder Polaroid 1 -->
+                <div class="polaroid-card bg-white p-4 pb-6 rounded-2xl shadow-md border border-stone-100 -rotate-1 cursor-pointer group" onclick="triggerSlotUpload(0)">
+                    <div class="aspect-[4/3] rounded-xl bg-roseGold-100/60 border-2 border-dashed border-roseGold-300 flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group-hover:bg-roseGold-100 transition-colors" id="slot-img-0">
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-roseGold-500 shadow-sm mb-3 group-hover:scale-110 transition-transform">
+                            <i data-lucide="image-plus" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-roseGold-600">Click to add our photo</p>
+                        <p class="text-xs text-stone-500 mt-1">A snapshot from our Kota days</p>
+                    </div>
+                    <div class="mt-4 px-1 flex items-center justify-between">
+                        <p id="slot-caption-0" class="font-handwriting text-2xl text-stone-700">Our Kota Days & Smiles ✨</p>
+                        <button onclick="event.stopPropagation(); editCaption(0)" class="text-stone-400 hover:text-roseGold-500 p-1.5 rounded-lg" title="Edit Caption">
+                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Placeholder Polaroid 2 -->
+                <div class="polaroid-card bg-white p-4 pb-6 rounded-2xl shadow-md border border-stone-100 rotate-1 cursor-pointer group" onclick="triggerSlotUpload(1)">
+                    <div class="aspect-[4/3] rounded-xl bg-amber-50/80 border-2 border-dashed border-amberWarm-500/40 flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group-hover:bg-amber-100/50 transition-colors" id="slot-img-1">
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-amberWarm-600 shadow-sm mb-3 group-hover:scale-110 transition-transform">
+                            <i data-lucide="image-plus" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-amberWarm-600">Click to add our photo</p>
+                        <p class="text-xs text-stone-500 mt-1">Study breaks & endless talks</p>
+                    </div>
+                    <div class="mt-4 px-1 flex items-center justify-between">
+                        <p id="slot-caption-1" class="font-handwriting text-2xl text-stone-700">Best Didi & Chota Bhai 💛</p>
+                        <button onclick="event.stopPropagation(); editCaption(1)" class="text-stone-400 hover:text-roseGold-500 p-1.5 rounded-lg" title="Edit Caption">
+                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Placeholder Polaroid 3 -->
+                <div class="polaroid-card bg-white p-4 pb-6 rounded-2xl shadow-md border border-stone-100 -rotate-1 cursor-pointer group" onclick="triggerSlotUpload(2)">
+                    <div class="aspect-[4/3] rounded-xl bg-roseGold-100/60 border-2 border-dashed border-roseGold-300 flex flex-col items-center justify-center p-4 text-center overflow-hidden relative group-hover:bg-roseGold-100 transition-colors" id="slot-img-2">
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-roseGold-500 shadow-sm mb-3 group-hover:scale-110 transition-transform">
+                            <i data-lucide="image-plus" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-roseGold-600">Click to add our photo</p>
+                        <p class="text-xs text-stone-500 mt-1">A memory I hold close to my heart</p>
+                    </div>
+                    <div class="mt-4 px-1 flex items-center justify-between">
+                        <p id="slot-caption-2" class="font-handwriting text-2xl text-stone-700">Waiting to meet again soon 🤍</p>
+                        <button onclick="event.stopPropagation(); editCaption(2)" class="text-stone-400 hover:text-roseGold-500 p-1.5 rounded-lg" title="Edit Caption">
+                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Hidden input specifically for replacing slot photos -->
+            <input type="file" id="slot-file-input" accept="image/*" class="hidden">
+        </div>
+    </section>
+
+    <!-- 4. HEART-TO-HEART & HONEST FEELINGS (THE PROTECTIVE YOUNGER BROTHER) -->
+    <section id="honest-note" class="py-16 sm:py-24 px-4 sm:px-6 relative z-10">
+        <div class="max-w-3xl mx-auto">
+            <div class="glass-panel rounded-[2rem] p-7 sm:p-12 shadow-lg border border-roseGold-200 relative overflow-hidden">
+                <!-- Decorative subtle corner icon -->
+                <div class="absolute -top-6 -right-6 text-roseGold-100 pointer-events-none">
+                    <i data-lucide="heart" class="w-36 h-36 fill-roseGold-100"></i>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 text-roseGold-600 font-semibold text-xs uppercase tracking-widest mb-3">
+                        <i data-lucide="feather" class="w-4 h-4"></i>
+                        <span>A Confession From Your Little Brother</span>
+                    </div>
+
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mb-6">
+                        Honest Words From My Heart...
+                    </h2>
+
+                    <div class="space-y-4 text-stone-700 text-base sm:text-lg leading-relaxed">
+                        <p>
+                            Dear Didi,
+                        </p>
+                        <p>
+                            You know how much I look up to you. Since I don’t have a biological sister, you are literally my entire world when it comes to having a sister. I think about you almost every single day—wondering how your classes are going, if you’re eating properly, and wishing I could just teleport to where you are.
+                        </p>
+                        <p class="bg-roseGold-100/70 border-l-4 border-roseGold-500 p-4 sm:p-5 rounded-r-2xl text-stone-800 italic">
+                            "Now, let me be completely honest like a typical protective younger brother... Hearing that you made a boyfriend in college honestly made me feel a little jealous! Not because I don't want you to be happy, of course I want all the happiness in the universe for you—but because when you're my only Didi, sharing your time and attention feels tough for your little brother!"
+                        </p>
+                        <p>
+                            I just want you to always remember one thing: college friends and relationships have their own place, and I genuinely pray he treats you with the utmost respect you deserve. <strong>But nobody on this planet can ever replace the pure, unbreakable bond between a Didi and her Chota Bhai.</strong>
+                        </p>
+                        <p>
+                            No matter how busy college gets, don't ever forget the boy in Kota who found his sister in you.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-roseGold-200/60 flex items-center justify-between flex-wrap gap-4">
+                        <div>
+                            <p class="font-handwriting text-2xl sm:text-3xl text-roseGold-600 font-bold">Forever your Chota Bhai ❤️</p>
+                            <p class="text-xs text-stone-500">1 year younger, 100% protective</p>
+                        </div>
+                        <button onclick="sendVirtualHug()" class="px-5 py-2.5 rounded-full bg-roseGold-100 hover:bg-roseGold-200 text-roseGold-700 font-medium text-sm transition-colors flex items-center gap-2">
+                            <i data-lucide="heart" class="w-4 h-4 fill-roseGold-500 text-roseGold-500"></i>
+                            <span>Tap to Feel My Hug</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. INTERACTIVE "DO YOU LOVE YOUR LITTLE BROTHER?" QUIZ -->
+    <section id="quiz" class="py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-cream-50 via-roseGold-100/50 to-cream-100 relative z-10">
+        <div class="max-w-2xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-widest text-roseGold-600 font-bold">Be Honest, Didi!</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-900 mt-2 mb-3">
+                A Few Questions From Your Brother
+            </h2>
+            <p class="text-stone-600 text-sm sm:text-base mb-10">
+                Answer these honestly—and try clicking "No" if you dare! 😉
+            </p>
+
+            <!-- Interactive Quiz Card -->
+            <div id="quiz-container" class="glass-panel rounded-[2rem] p-7 sm:p-10 shadow-xl border border-roseGold-200 relative min-h-[340px] flex flex-col justify-between transition-all">
+                
+                <!-- Progress Indicator -->
+                <div class="flex items-center justify-between text-xs font-semibold text-stone-500 mb-6">
+                    <span id="question-counter">Question 1 of 5</span>
+                    <div class="flex gap-1.5" id="progress-dots">
+                        <span class="w-6 h-1.5 rounded-full bg-roseGold-500 transition-all"></span>
+                        <span class="w-6 h-1.5 rounded-full bg-roseGold-200 transition-all"></span>
+                        <span class="w-6 h-1.5 rounded-full bg-roseGold-200 transition-all"></span>
+                        <span class="w-6 h-1.5 rounded-full bg-roseGold-200 transition-all"></span>
+                        <span class="w-6 h-1.5 rounded-full bg-roseGold-200 transition-all"></span>
+                    </div>
+                </div>
+
+                <!-- Question Content -->
+                <div id="question-box" class="my-auto py-4">
+                    <div class="w-14 h-14 rounded-2xl bg-roseGold-100 text-roseGold-600 flex items-center justify-center mx-auto mb-5 shadow-inner">
+                        <i id="question-icon" data-lucide="heart" class="w-7 h-7"></i>
+                    </div>
+                    <h3 id="question-text" class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 leading-snug mb-3">
+                        Do you still love your little brother the most?
+                    </h3>
+                    <p id="question-subtext" class="text-sm text-stone-500 max-w-md mx-auto">
+                        Even more than all the new people in college?
+                    </p>
+                </div>
+
+                <!-- Feedback Banner (Appears when Yes is clicked) -->
+                <div id="answer-feedback" class="hidden my-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-medium animate-fade-in">
+                </div>
+
+                <!-- Action Buttons -->
+                <div id="quiz-buttons" class="mt-6 flex flex-wrap items-center justify-center gap-4 relative min-h-[56px]">
+                    <button id="yes-btn" onclick="handleYesClick()" class="px-8 py-3.5 rounded-full bg-roseGold-500 hover:bg-roseGold-600 text-white font-semibold shadow-md shadow-roseGold-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 z-10">
+                        <i data-lucide="heart" class="w-4 h-4 fill-white"></i>
+                        <span id="yes-btn-text">Yes, Always! ❤️</span>
+                    </button>
+
+                    <button id="no-btn" onmouseover="dodgeNoButton()" onclick="dodgeNoButton()" class="px-7 py-3.5 rounded-full bg-white hover:bg-stone-100 text-stone-600 border border-stone-200 font-medium shadow-sm transition-all duration-200">
+                        <span id="no-btn-text">No 😜</span>
+                    </button>
+                </div>
+
+                <!-- Final Summary Card (Hidden until quiz finishes) -->
+                <div id="quiz-summary" class="hidden text-left space-y-6">
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-roseGold-100 text-roseGold-600 mb-3">
+                            <i data-lucide="award" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-serif text-3xl font-bold text-stone-900">100% Proven: Best Didi Ever!</h3>
+                        <p class="text-sm text-stone-600 mt-1">
+                            Your answers officially prove that our sibling bond is unbreakable.
+                        </p>
+                    </div>
+
+                    <!-- Summary Receipt Box -->
+                    <div id="summary-receipt" class="bg-white p-5 rounded-2xl border border-roseGold-200 shadow-inner space-y-2.5 text-sm text-stone-700">
+                        <p class="font-bold text-roseGold-600 border-b border-roseGold-100 pb-2 flex items-center justify-between">
+                            <span>Official Didi Love Certificate ✨</span>
+                            <span class="text-xs font-normal text-stone-400">Verified</span>
+                        </p>
+                        <ul id="summary-list" class="space-y-2 text-xs sm:text-sm">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Custom Reply Input for Didi -->
+                    <div>
+                        <label for="didi-reply-input" class="block text-xs font-semibold uppercase tracking-wider text-stone-500 mb-2">
+                            Write a quick note back to your little brother:
+                        </label>
+                        <textarea id="didi-reply-input" rows="2" placeholder="Write something sweet here before copying or taking a screenshot..." class="w-full px-4 py-3 rounded-2xl bg-white border border-roseGold-200 text-sm focus:outline-none focus:ring-2 focus:ring-roseGold-400 text-stone-800"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="copySummaryToClipboard()" class="flex-1 py-3.5 px-5 rounded-full bg-roseGold-500 hover:bg-roseGold-600 text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                            <span>Copy Answers to Send Me</span>
+                        </button>
+                        <button onclick="resetQuiz()" class="py-3.5 px-5 rounded-full bg-white hover:bg-stone-100 text-stone-600 border border-stone-200 font-medium text-sm transition-all">
+                            Replay
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-4 text-center border-t border-roseGold-200/40 bg-cream-50 relative z-10">
+        <p class="font-serif text-xl text-stone-800 font-semibold">
+            "Distance means so little when someone means so much."
+        </p>
+        <p class="text-xs text-stone-500 mt-2">
+            Made with all the love in the world by your Chota Bhai • From Kota to Forever
+        </p>
+    </footer>
+
+    <!-- Modal for Editing Photo Captions (Replaces prompt()) -->
+    <div id="caption-modal" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-roseGold-200">
+            <h3 class="font-serif text-2xl font-bold text-stone-900 mb-2">Edit Memory Caption</h3>
+            <p class="text-xs text-stone-500 mb-4">Write a caption that reminds you of this moment together.</p>
+            <input type="text" id="modal-caption-input" class="w-full px-4 py-3 rounded-2xl bg-cream-50 border border-roseGold-200 text-sm focus:outline-none focus:ring-2 focus:ring-roseGold-400 mb-5">
+            <div class="flex justify-end gap-3">
+                <button onclick="closeCaptionModal()" class="px-4 py-2 rounded-full text-sm font-medium text-stone-600 hover:bg-stone-100">Cancel</button>
+                <button onclick="saveCaptionModal()" class="px-5 py-2 rounded-full text-sm font-semibold bg-roseGold-500 hover:bg-roseGold-600 text-white">Save Caption</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // ---------------------------------------------------------
+        // 1. AMBIENT FLOATING HEARTS & SPARKLES
+        // ---------------------------------------------------------
+        function createFloatingParticles() {
+            const container = document.getElementById('particles-container');
+            const symbols = ['❤️', '✨', '🌸', '🤍'];
+            const count = 14;
+
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.className = 'floating-particle text-sm sm:text-base select-none';
+                span.textContent = symbols[i % symbols.length];
+                span.style.left = `${Math.random() * 100}vw`;
+                span.style.animationDuration = `${14 + Math.random() * 14}s`;
+                span.style.animationDelay = `${Math.random() * 10}s`;
+                container.appendChild(span);
+            }
+        }
+        createFloatingParticles();
+
+        // ---------------------------------------------------------
+        // 2. TOAST NOTIFICATION SYSTEM (No alert() used)
+        // ---------------------------------------------------------
+        let toastTimeout;
+        function showToast(message, iconName = 'heart') {
+            const toast = document.getElementById('toast-notification');
+            const msgEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            msgEl.textContent = message;
+            iconEl.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
+            lucide.createIcons();
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        function sendVirtualHug() {
+            confetti({
+                particleCount: 55,
+                spread: 65,
+                origin: { y: 0.7 },
+                colors: ['#E29590', '#C9736D', '#D99B52', '#FCECEB']
+            });
+            showToast("Sending the biggest, warmest Chota Bhai hug across the miles! 🤗❤️", "heart");
+        }
+
+        // ---------------------------------------------------------
+        // 3. INTERACTIVE MEMORY GALLERY & PHOTO UPLOADER
+        // ---------------------------------------------------------
+        let activeSlotIndex = null;
+        let editingSlotIndex = null;
+        let customPhotoCount = 3;
+
+        // Upload via top "Add Photo" button (adds new polaroid card)
+        document.getElementById('photo-upload-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const captionInput = document.getElementById('photo-caption-input');
+            const captionText = captionInput.value.trim() || "Unforgettable Memory Together ❤️";
+            const imageUrl = URL.createObjectURL(file);
+
+            addNewPolaroidCard(imageUrl, captionText);
+            captionInput.value = '';
+            e.target.value = '';
+            showToast("New memory added to our scrapbook! 📸", "sparkles");
+        });
+
+        function addNewPolaroidCard(imageUrl, captionText) {
+            const grid = document.getElementById('polaroid-grid');
+            const idx = customPhotoCount++;
+            const rotation = idx % 2 === 0 ? '-rotate-1' : 'rotate-1';
+
+            const card = document.createElement('div');
+            card.className = `polaroid-card bg-white p-4 pb-6 rounded-2xl shadow-md border border-stone-100 ${rotation}`;
+            card.innerHTML = `
+                <div class="aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 relative">
+                    <img src="${imageUrl}" alt="${captionText}" class="w-full h-full object-cover">
+                </div>
+                <div class="mt-4 px-1 flex items-center justify-between">
+                    <p id="slot-caption-${idx}" class="font-handwriting text-2xl text-stone-700">${escapeHtml(captionText)}</p>
+                    <button onclick="editCaption(${idx})" class="text-stone-400 hover:text-roseGold-500 p-1.5 rounded-lg" title="Edit Caption">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            `;
+            grid.appendChild(card);
+            lucide.createIcons();
+        }
+
+        // Upload directly into one of the 3 starter placeholder slots
+        function triggerSlotUpload(slotIdx) {
+            activeSlotIndex = slotIdx;
+            document.getElementById('slot-file-input').click();
+        }
+
+        document.getElementById('slot-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file || activeSlotIndex === null) return;
+
+            const imageUrl = URL.createObjectURL(file);
+            const slotContainer = document.getElementById(`slot-img-${activeSlotIndex}`);
+            slotContainer.className = "aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 relative";
+            slotContainer.innerHTML = `<img src="${imageUrl}" alt="Our Memory" class="w-full h-full object-cover">`;
+            
+            e.target.value = '';
+            showToast("Photo added to frame! Looking amazing! ❤️", "camera");
+        });
+
+        // Caption editing modal logic
+        function editCaption(idx) {
+            editingSlotIndex = idx;
+            const currentText = document.getElementById(`slot-caption-${idx}`).textContent;
+            const modalInput = document.getElementById('modal-caption-input');
+            modalInput.value = currentText;
+            
+            const modal = document.getElementById('caption-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modalInput.focus();
+        }
+
+        function closeCaptionModal() {
+            const modal = document.getElementById('caption-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            editingSlotIndex = null;
+        }
+
+        function saveCaptionModal() {
+            if (editingSlotIndex === null) return;
+            const newText = document.getElementById('modal-caption-input').value.trim();
+            if (newText) {
+                document.getElementById(`slot-caption-${editingSlotIndex}`).textContent = newText;
+                showToast("Caption updated!", "check");
+            }
+            closeCaptionModal();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ---------------------------------------------------------
+        // 4. INTERACTIVE "DO YOU LOVE YOUR LITTLE BROTHER?" QUIZ
+        // ---------------------------------------------------------
+        const quizQuestions = [
+            {
+                icon: "heart",
+                question: "Do you still love your little brother the most?",
+                subtext: "Be honest—even with busy college days, does your Chota Bhai still hold #1 spot?",
+                yesLabel: "Yes, Always! ❤️",
+                proofResponse: "I knew it! Nobody can ever take my place as your favorite little brother.",
+                summaryLine: "Loves her little brother the most: YES, ALWAYS ❤️"
+            },
+            {
+                icon: "book-open",
+                question: "Do you miss our Kota preparation days & crazy talks?",
+                subtext: "Those stressful NEET days were tough, but having you made everything worth it.",
+                yesLabel: "So much! 🥺",
+                proofResponse: "Every single memory from Kota is safe in my heart too!",
+                summaryLine: "Misses our Kota days & talks: SO MUCH 🥺"
+            },
+            {
+                icon: "shield-heart",
+                question: "Even with a boyfriend in college, am I still your irreplaceable Chota Bhai?",
+                subtext: "Admitting I got a tiny bit jealous... reassure your younger brother!",
+                yesLabel: "100% Irreplaceable! ✨",
+                proofResponse: "Okay, jealousy officially cured! Best Didi in the world!",
+                summaryLine: "Chota Bhai is 100% irreplaceable: CONFIRMED ✨"
+            },
+            {
+                icon: "smile",
+                question: "Am I still your favorite headache who always thinks about you?",
+                subtext: "Even though I'm 1 year younger, I still get to annoy you forever.",
+                yesLabel: "My favorite headache 😄",
+                proofResponse: "And I promise to keep annoying you for the rest of our lives!",
+                summaryLine: "Still her favorite headache: DEFINITELY 😄"
+            },
+            {
+                icon: "map-pin",
+                question: "Will you promise to meet me as soon as life makes it possible?",
+                subtext: "Distance is temporary—our reunion is going to be legendary.",
+                yesLabel: "Pinky Promise! 🤝",
+                proofResponse: "Promise locked in! Counting down the days until I see you again, Didi!",
+                summaryLine: "Pinky promised to meet soon: LOCKED IN 🤝"
+            }
+        ];
+
+        let currentStep = 0;
+        let dodgeCount = 0;
+        const noButtonPhrases = [
+            "Nice try! 😜",
+            "Button broken! 🚫",
+            "Didi, please! 🥺",
+            "Not an option! ❤️",
+            "Click Yes! ✨"
+        ];
+
+        function renderQuestion() {
+            const q = quizQuestions[currentStep];
+            document.getElementById('question-counter').textContent = `Question ${currentStep + 1} of ${quizQuestions.length}`;
+            
+            // Update progress dots
+            const dots = document.getElementById('progress-dots').children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = i <= currentStep 
+                    ? 'w-6 h-1.5 rounded-full bg-roseGold-500 transition-all' 
+                    : 'w-6 h-1.5 rounded-full bg-roseGold-200 transition-all';
+            }
+
+            document.getElementById('question-icon').setAttribute('data-lucide', q.icon);
+            document.getElementById('question-text').textContent = q.question;
+            document.getElementById('question-subtext').textContent = q.subtext;
+            document.getElementById('yes-btn-text').textContent = q.yesLabel;
+
+            // Reset No button position & text
+            const noBtn = document.getElementById('no-btn');
+            noBtn.style.transform = 'translate(0px, 0px)';
+            document.getElementById('no-btn-text').textContent = "No 😜";
+            dodgeCount = 0;
+
+            document.getElementById('answer-feedback').classList.add('hidden');
+            lucide.createIcons();
+        }
+
+        function dodgeNoButton() {
+            const noBtn = document.getElementById('no-btn');
+            const maxOffset = 90;
+            const randomX = (Math.random() - 0.5) * 2 * maxOffset;
+            const randomY = (Math.random() - 0.5) * 2 * (maxOffset * 0.6);
+
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            document.getElementById('no-btn-text').textContent = noButtonPhrases[dodgeCount % noButtonPhrases.length];
+            dodgeCount++;
+        }
+
+        function handleYesClick() {
+            const q = quizQuestions[currentStep];
+            
+            // Trigger mini confetti burst
+            confetti({
+                particleCount: 40,
+                spread: 60,
+                origin: { y: 0.75 },
+                colors: ['#E29590', '#C9736D', '#D99B52']
+            });
+
+            const feedbackBox = document.getElementById('answer-feedback');
+            feedbackBox.textContent = q.proofResponse;
+            feedbackBox.classList.remove('hidden');
+
+            // Disable buttons briefly while transitioning
+            const yesBtn = document.getElementById('yes-btn');
+            yesBtn.disabled = true;
+
+            setTimeout(() => {
+                yesBtn.disabled = false;
+                currentStep++;
+                if (currentStep < quizQuestions.length) {
+                    renderQuestion();
+                } else {
+                    showFinalSummary();
+                }
+            }, 1350);
+        }
+
+        function showFinalSummary() {
+            // Big celebration confetti
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+
+            document.getElementById('question-box').classList.add('hidden');
+            document.getElementById('answer-feedback').classList.add('hidden');
+            document.getElementById('quiz-buttons').classList.add('hidden');
+            document.getElementById('question-counter').parentElement.classList.add('hidden');
+
+            const summaryList = document.getElementById('summary-list');
+            summaryList.innerHTML = quizQuestions.map(q => `
+                <li class="flex items-start gap-2">
+                    <span class="text-roseGold-500 mt-0.5">✔</span>
+                    <span>${q.summaryLine}</span>
+                </li>
+            `).join('');
+
+            document.getElementById('quiz-summary').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function copySummaryToClipboard() {
+            const customNote = document.getElementById('didi-reply-input').value.trim();
+            let textToCopy = "❤️ Official Didi Love Certificate ❤️\n\n";
+            quizQuestions.forEach(q => {
+                textToCopy += `✔ ${q.summaryLine}\n`;
+            });
+            if (customNote) {
+                textToCopy += `\n💌 Didi's Note to Chota Bhai:\n"${customNote}"\n`;
+            }
+            textToCopy += "\n— Bound by Heart, Not Just Blood ✨";
+
+            // Use fallback execCommand('copy') for iframe safety
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                showToast("Copied! Now paste & send it to your little brother on WhatsApp! 💌", "check-circle");
+            } catch (err) {
+                showToast("Please take a screenshot and send it to your brother! 📸", "camera");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function resetQuiz() {
+            currentStep = 0;
+            document.getElementById('quiz-summary').classList.add('hidden');
+            document.getElementById('question-box').classList.remove('hidden');
+            document.getElementById('quiz-buttons').classList.remove('hidden');
+            document.getElementById('question-counter').parentElement.classList.remove('hidden');
+            renderQuestion();
+        }
+    </script>
+</body>
+</html>
